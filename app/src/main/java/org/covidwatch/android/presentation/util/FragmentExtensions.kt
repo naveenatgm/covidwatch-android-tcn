@@ -1,6 +1,7 @@
 package org.covidwatch.android.presentation.util
 
 import android.app.DatePickerDialog
+import android.telephony.PhoneNumberUtils
 import androidx.fragment.app.Fragment
 import java.util.*
 
@@ -22,4 +23,21 @@ fun Fragment.showDatePicker(callback: (date: Date) -> Unit) {
     dialog.datePicker.maxDate = Date().time
 
     dialog.show()
+}
+
+fun Fragment.validateContactNumber(phoneNum: String): Boolean {
+
+    var reg = "^\\(?\\d{3}\\)? ?\\d{3}-?\\d{4}$".toRegex()  //"\\(?\\d{3}\\)?\\-?\\d{3}\\-\\d{4}".toRegex()
+    val formattedPhoneNum = formatContactNumber(phoneNum)
+    return formattedPhoneNum.matches(reg)
+}
+
+fun Fragment.formatContactNumber(phoneNum: String): String {
+    // TODO: IS It a US Only APP ??? Sukhdev validate the phone number based on country????
+    return if (PhoneNumberUtils.formatNumber(phoneNum, Locale.getDefault().country) != null) {
+        PhoneNumberUtils.formatNumber(phoneNum,Locale.getDefault().country)
+    }else {
+        "No contact number saved"
+    }
+
 }

@@ -1,7 +1,9 @@
 package org.covidwatch.android.data.signedreport.firestore
 
+import android.content.Context
 import android.util.Base64
 import android.util.Log
+import org.covidwatch.android.BuildConfig
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.collect
@@ -11,15 +13,15 @@ import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.RequestBody.Companion.toRequestBody
-import org.covidwatch.android.BuildConfig
 import org.covidwatch.android.data.signedreport.SignedReport
 import org.covidwatch.android.data.signedreport.SignedReportDAO
+import org.covidwatch.android.service.ContactTracerService
 import org.json.JSONObject
 import java.io.IOException
 
-class SignedReportsUploader(
-    private val okHttpClient: OkHttpClient,
-    private val signedReportDAO: SignedReportDAO
+class SignedReportsUploader(var context: Context,
+                            private val okHttpClient: OkHttpClient,
+                            private val signedReportDAO: SignedReportDAO
 ) {
 
     fun startUploading() {
@@ -99,9 +101,16 @@ class SignedReportsUploader(
 
     @Throws(IOException::class, IllegalStateException::class)
     private fun uploadReport(json: String): Boolean {
+        //post phone number to backend
+        val currPhone = context.getSharedPreferences("org.covidwatch.android.PREFERENCE_FILE_KEY",
+            Context.MODE_PRIVATE
+        )?.getString("contact_number_full","No number saved")
+        val cts = currPhone?.let { ContactTracerService().registerPhoneNumber(it, false) }
+
         val apiUrl = BuildConfig.FIREBASE_CLOUD_FUNCTIONS_ENDPOINT
         val url = "$apiUrl/submitReport"
         val body = json.toRequestBody(contentType())
+
         val request = Request.Builder()
             .url(url)
             .post(body)

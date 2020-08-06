@@ -18,6 +18,10 @@ class TestedRepositoryImpl(
         covidWatchTcnManager.generateAndUploadReport()
     }
 
+    override fun removeUserTestedPositive() {
+        preferences.edit().remove(IS_CURRENT_USER_SICK_KEY).apply()
+    }
+
     override fun isUserTestedPositive(): Boolean {
         return preferences.getBoolean(IS_CURRENT_USER_SICK_KEY, false)
     }

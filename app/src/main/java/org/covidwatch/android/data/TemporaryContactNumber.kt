@@ -25,4 +25,7 @@ class TemporaryContactNumber {
 
     @ColumnInfo(name = "was_potentially_infectious")
     var wasPotentiallyInfectious: Boolean = false
+
+    @ColumnInfo(name = "is_medical_dept_notified")
+    var isMedicalNotified: Boolean = false
 }

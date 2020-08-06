@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape android:shape="rectangle">
+            <size android:height="@dimen/big_button_height" android:width="@dimen/big_button_width"/>
+<!--            <stroke android:color="@color/accentYellowPressed" android:width="2dp" />-->
+            <solid android:color="@color/accentYellow"/>
+        </shape>
+    </item>
+</selector>

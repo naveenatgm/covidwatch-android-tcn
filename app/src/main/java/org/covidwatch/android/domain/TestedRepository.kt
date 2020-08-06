@@ -4,5 +4,7 @@ interface TestedRepository {
 
     fun setUserTestedPositive()
 
+    fun removeUserTestedPositive()
+
     fun isUserTestedPositive(): Boolean
 }

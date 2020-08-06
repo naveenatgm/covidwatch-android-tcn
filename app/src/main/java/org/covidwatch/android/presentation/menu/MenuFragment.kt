@@ -36,6 +36,7 @@ class MenuFragment : Fragment(R.layout.fragment_menu) {
         when (destination) {
             is Settings -> findNavController().navigate(R.id.settingsFragment)
             is TestResults -> findNavController().navigate(R.id.testQuestionsFragment)
+            is DebugInfo -> findNavController().navigate(R.id.debugInfo)
             is Browser -> openBrowser(destination.url)
         }
     }

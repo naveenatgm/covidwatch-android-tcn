@@ -11,7 +11,7 @@ buildscript {
         }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.6.3'
+        classpath 'com.android.tools.build:gradle:4.0.0'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath 'com.google.gms:google-services:4.3.3'
         classpath "com.vanniktech:gradle-android-junit-jacoco-plugin:0.16.0"
@@ -26,6 +26,13 @@ allprojects {
         google()
         jcenter()
         maven { url 'https://jitpack.io'}
+    }
+    configurations.all {
+            if (name.contains('archives')) {
+                attributes {
+                    attribute(Usage.USAGE_ATTRIBUTE, project.objects.named(Usage.class, Usage.JAVA_RUNTIME))
+                }
+            }
     }
 }
 

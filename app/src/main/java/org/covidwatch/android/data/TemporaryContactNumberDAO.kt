@@ -22,6 +22,12 @@ interface TemporaryContactNumberDAO {
     @Query("SELECT * FROM temporary_contact_numbers WHERE was_potentially_infectious = '1' LIMIT 1")
     fun findFirstPotentiallyInfections(): LiveData<TemporaryContactNumber>
 
+    @Query("SELECT COUNT(*) FROM temporary_contact_numbers WHERE was_potentially_infectious = '1' AND is_medical_dept_notified = '0'")
+    fun countNewPotentialInfections(): Int
+
+    @Query("UPDATE temporary_contact_numbers SET is_medical_dept_notified = '1' WHERE was_potentially_infectious = '1' AND is_medical_dept_notified = '0'")
+    fun markPotentialInfectiousNotifiedToMedical()
+
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insert(temporaryContactNumber: TemporaryContactNumber)
 

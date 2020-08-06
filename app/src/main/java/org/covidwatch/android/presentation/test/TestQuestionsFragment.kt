@@ -1,22 +1,32 @@
 package org.covidwatch.android.presentation.test
 
+import android.content.Intent
+import android.content.res.ColorStateList
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.isVisible
+import androidx.appcompat.app.AlertDialog
+import androidx.core.text.HtmlCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import org.covidwatch.android.R
 import org.covidwatch.android.databinding.FragmentTestQuestionsBinding
-import org.covidwatch.android.presentation.util.showDatePicker
+import org.covidwatch.android.domain.TestedRepository
+import org.covidwatch.android.util.ButtonUtils
+import org.koin.android.ext.android.inject
+
 
 class TestQuestionsFragment : Fragment() {
 
     private var _binding: FragmentTestQuestionsBinding? = null
     private val binding get() = _binding!!
+
+    private val testedRepository: TestedRepository by inject()
 
     private val testQuestionsViewModel: TestQuestionsViewModel by viewModels()
 
@@ -32,10 +42,14 @@ class TestQuestionsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        if (testedRepository.isUserTestedPositive()){
+            findNavController().navigate(R.id.testConfirmationFragment)
+        }
+
         testQuestionsViewModel.testDate.observe(viewLifecycleOwner, Observer {
             val checkedIconId = if (it.isChecked) R.drawable.ic_check_true else 0
-            binding.dateButton.setCompoundDrawablesWithIntrinsicBounds(0, 0, checkedIconId, 0)
-            binding.dateButton.text = it?.formattedDate
+//            binding.dateButton.setCompoundDrawablesWithIntrinsicBounds(0, 0, checkedIconId, 0)
+//            binding.dateButton.text = it?.formattedDate
         })
         testQuestionsViewModel.isTested.observe(viewLifecycleOwner, Observer {
             updateUi(it)
@@ -48,26 +62,33 @@ class TestQuestionsFragment : Fragment() {
     }
 
     private fun initClickListeners() {
-        binding.closeButton.setOnClickListener {
-            findNavController().popBackStack()
+        binding.toolbar.menuButton.setOnClickListener {
+            findNavController().navigate(R.id.menuFragment)
         }
-        binding.negativeButton.setOnClickListener {
-            testQuestionsViewModel.onRadioButtonClicked(false)
+
+        binding.dialMedicalButton.setOnClickListener{
+            val phone = getString(R.string.medical_dept_phone_number)
+            val intent = Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", phone, null))
+            startActivity(intent)
         }
-        binding.positiveButton.setOnClickListener {
-            testQuestionsViewModel.onRadioButtonClicked(true)
+        binding.dialMedicalButton.setOnTouchListener(ButtonUtils.ButtonTouchListener())
+
+        binding.reportButton.setOnTouchListener {v, event ->
+            when(event.action) {
+                MotionEvent.ACTION_DOWN -> {
+                    v.backgroundTintList = context?.getColor(R.color.red_alert_pressed)?.let {ColorStateList.valueOf(it)}
+                    v.invalidate()
+                }
+                MotionEvent.ACTION_UP -> {
+                    v.backgroundTintList = context?.getColor(R.color.red_alert)?.let {ColorStateList.valueOf(it)}
+                    v.invalidate()
+                    showConfirmationDialog()
+                }
         }
-        binding.continueButton.setOnClickListener {
-            findNavController().popBackStack(R.id.homeFragment, false)
+
+            false
         }
-        binding.dateButton.setOnClickListener {
-            showDatePicker {
-                testQuestionsViewModel.onDateSelected(it)
-            }
-        }
-        binding.reportButton.setOnClickListener {
-            findNavController().navigate(R.id.testConfirmationFragment)
-        }
+
     }
 
     override fun onDestroyView() {
@@ -75,20 +96,24 @@ class TestQuestionsFragment : Fragment() {
         _binding = null
     }
 
+    private fun showConfirmationDialog() {
+        AlertDialog.Builder(requireContext(), android.R.style.Theme_DeviceDefault_Dialog_Alert)
+            .setMessage("Are you sure?")
+            .setPositiveButton("Yes") { dialogInterface, i ->
+                testedRepository.setUserTestedPositive()
+                findNavController().navigate(R.id.testConfirmationFragment)
+            }
+            .setNegativeButton("Cancel", null)
+            .show()
+    }
+
     private fun updateUi(isTested: Boolean) {
         val negativeIconId = if (isTested) 0 else R.drawable.ic_check_true
         val positiveIconId = if (isTested) R.drawable.ic_check_true else 0
-        binding.negativeButton.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, negativeIconId, 0)
-        binding.positiveButton.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, positiveIconId, 0)
-
-        binding.negativeButtonText.isVisible = !isTested
-        binding.continueButton.isVisible = !isTested
-        binding.positiveButtonText.isVisible = isTested
-        binding.dateButton.isVisible = isTested
     }
 
     private fun toggleReportButton(isVisible: Boolean) {
-        binding.reportButton.isVisible = isVisible
-        binding.reportButtonText.isVisible = isVisible
+//        binding.reportButton.isVisible = isVisible
+//        binding.reportButtonText.isVisible = isVisible
     }
 }

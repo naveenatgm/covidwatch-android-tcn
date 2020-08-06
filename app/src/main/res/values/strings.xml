@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Covid Watch</string>
+    <string name="app_name">Contact Tracing</string>
     <string name="title_contact_events">Seen Tags</string>
     <string name="title_my_profile">Settings</string>
     <string name="title_notifications">Notifications</string>
@@ -17,7 +17,7 @@
     <string name="notification_current_user_was_exposed">You have been notified</string>
 
     <!--  FROM THE UX REPO  -->
-    <string name="splash_text">Help your community stay safe, anonymously.</string>
+    <string name="splash_text">Help Every One stay safe, anonymously.</string>
     <string name="start">Start</string>
     <string name="grant_location_access">Grant Location Access</string>
 
@@ -35,14 +35,14 @@
     <string name="textView" />
     <string name="disclaimer"><![CDATA[By clicking Report, you acknowledge, understand and further agree to our Privacy Policy and Terms & Conditions]]></string>
     <string name="ble_location_permission">The permission to get BLE location data is required</string>
-    <string name="foreground_notification_title">Covid Watch is running</string>
-    <string name="foreground_notification_ble_off">Covid Watch needs Bluetooth to be turned on</string>
+    <string name="foreground_notification_title">Contact Tracing is running</string>
+    <string name="foreground_notification_ble_off">Contact Tracing app needs Bluetooth to be turned on</string>
     <string name="not_contacted">You have NOT been contacted.</string>
     <string name="based_on">Based on last 14 days of activity.</string>
     <string name="we_dont_share">We don\'t share with Big Brother.</string>
     <string name="we_dont_share_2">We share with each other.</string>
     <string name="share_text">Help by Sharing</string>
-    <string name="share_sub_text">Ask family and friends to join the Covid Watch Team</string>
+    <string name="share_sub_text">Ask your colleague to join the Contact Tracing Team</string>
     <string name="self_report">Self Report</string>
     <string name="self_report_text">Self Report</string>
 
@@ -56,7 +56,7 @@
     <string name="report">Report</string>
     <string name="thanks_for_update">Thanks for the update. You can come back here if you test positive to help keep your community safe.</string>
     <string name="confirm_results">Please confirm your test results</string>
-    <string name="confirm_results_disclaimer">This report is completely anonymous and the community relies on you to be truthful and responsible. Depending on anonymous interaction logs, other Covid Watch users may get notified to self-quarantine and get tested.</string>
+    <string name="confirm_results_disclaimer">This report is completely anonymous and relies on you to be truthful and responsible. Depending on anonymous interaction logs, other Safety users may get notified to self-quarantine and get tested.</string>
     <string name="covid_19_test">COVID-19 Test</string>
     <string name="positive">POSITIVE</string>
     <string name="confirm">Confirm</string>
@@ -65,10 +65,11 @@
     <string name="settings">Settings</string>
     <string name="test_results">Test Results</string>
     <string name="how_does_this_work">How does this work?</string>
-    <string name="covid_watch_website">Covid Watch Website</string>
+    <string name="covid_watch_website">Contact Tracing Website</string>
     <string name="health_guidelines">Health Guidelines</string>
     <string name="terms_of_use">Terms of Use</string>
     <string name="privacy_policy">Privacy Policy</string>
+    <string name="debug_info">Debug Info</string>
 
     <string name="issues_needs_to_be_resolved">The following issue(s) need to be resolved for the app to work properly</string>
     <string name="turn_on_bluetooth">Turn on Bluetooth</string>
@@ -77,29 +78,37 @@
     <string name="turn_on_bluetooth_subtext">Bluetooth is required for this app to work</string>
     <string name="location_access_on">Location Access On</string>
 
-    <string name="menu_footer_text">A project in collaboration with</string>
-    <string name="stanford_university">Stanford University</string>
+    <string name="menu_footer_text"></string>
+    <string name="stanford_university"></string>
 
-    <string name="bluetooth_explanation_subtext">Apps using Bluetooth® Low Energy (BLE) are required to have location access enabled.</string>
-    <string name="bluetooth_explanation_text">We use Bluetooth to anonymously log interactions with other Covid Watch users. Your personal data is always private and never shared.</string>
-    <string name="bluetooth_explanation_title">Privately Connect</string>
+    <string name="todays_interactions">Today\'s Interactions</string>
+    <string name="all_interactions">All Interactions</string>
+    <string name="interaction_contacts">Contacts</string>
+    <string name="interaction_minutes">Exposure Minutes</string>
+
+
+    <string name="bluetooth_explanation_subtext">Your device contact data is shared only with medical dept.</string>
+    <string name="location_explanation_subtext">Location access is required in order for Bluetooth to function properly.</string>
+    <string name="bluetooth_explanation_text">Contact Tracing uses Bluetooth to anonymously detect nearby devices and log interaction with other users. The interaction is logged if it exceeds 10 minutes at approximately ten foot distance.</string>
+    <string name="bluetooth_explanation_title">Contact Tracing</string>
+    <string name="bluetooth_explanation_sub_title">Help every one stay safe</string>
     <string name="logo_image_content_descriptor">Logo image</string>
     <string name="menu_button_content_descriptor">Menu button</string>
     <string name="people_bluetooth_connection_content_descriptor">People connecting over bluetooth</string>
     <string name="female_superhero_content_descriptor">Female superhero</string>
     <string name="share_the_app">Share the app</string>
-    <string name="text_for_covid_text">Tested for COVID-19?</string>
-    <string name="you_re_all_set_title">You’re all set!</string>
-    <string name="thank_you_text">Thank you for helping protect your communities. You will be notified of potential contact to COVID-19..</string>
+    <string name="text_for_covid_text">SWIPE IF YOU TESTED\nPOSITIVE FOR COVID 19</string>
+    <string name="social_distance_detection">SOCIAL DISTANCE DETECTION</string>
+    <string name="thank_you_text">Run pre-check before entering a Facility.</string>
     <string name="welcome_back_title">Welcome Back!</string>
-    <string name="not_detected_text">Covid Watch has not detected exposure to COVID-19. Share the app with family and friends to help your community stay safe.</string>
-    <string name="detected_thank_you_text">Thank you for helping your community stay safe, anonymously.</string>
+    <string name="not_detected_text">Contact Tracing has not detected exposure to COVID-19. Share the app with your colleague and keep every one stay safe.</string>
+    <string name="detected_thank_you_text">Thank you for helping every one stay safe, anonymously.</string>
     <string name="main_subtext_1">It works best when everyone uses it.</string>
-    <string name="main_subtext_2">Share your result anonymously to help your community stay safe.</string>
+    <string name="main_subtext_2">Share your result with Medical Dept. to help every one stay safe.</string>
     <string name="contact_alert_text">You may have been in contact with COVID-19</string>
     <string name="reported_alert_text">You reported that you tested positive for COVID-19</string>
-    <string name="share_intent_text">Help your community stay safe, anonymously:</string>
-    <string name="reported_tested_positive_text">Thank you for helping your community stay safe, anonymously.</string>
+    <string name="share_intent_text">Help every one stay safe, anonymously:</string>
+    <string name="reported_tested_positive_text">Thank you for helping every one stay safe, anonymously.</string>
     <string name="covid_title">COVID-19</string>
     <string name="risk_subtitle">Potential Risk</string>
     <string name="risk_description">of infection based on your anonymous exposure logs</string>
@@ -110,5 +119,26 @@
     <string name="rest_and_take_care">Rest and take care</string>
     <string name="get_tested_if_advised">Get tested if advised</string>
     <string name="refer_to_local_agencies">Refer to local agencies for medical advice</string>
+    <string name="string_interactions">Interactions</string>
+    <string name="interactions_list">Interactions List</string>
+    <string name="safe_at_work">Contact Tracing</string>
+    <string name="pre_check">PRE-CHECK</string>
+    <string name="you_reported_sick">You\'ve reported sick</string>
+    <string name="safe_text">SAFE</string>
+    <string name="getting_close">GETTING CLOSE</string>
+    <string name="too_close">TOO CLOSE</string>
+    <string name="people_nearby">People detected nearby</string>
+    <string name="no_people_nearby">"No People detected nearby"</string>
+    <string name="people_too_close">People detected in your space</string>
+    <string name="call_tested_positive">If you tested positive for Covid-19\ncall Medical Dept. at (555) 555-1234</string>
+    <string name="dial_medical">DIAL MEDICAL DEPT.</string>
+    <string name="enter_confirmation_num">Enter confirmation number from Medical Dept.</string>
+    <string name="send_interactions">SEND MY INTERACTIONS\nTO MEDICAL DEPT.</string>
+    <string name="medical_dept_phone_number">1 (555) 555-1234</string>
+    <string name="enter_contact_phone_number">The phone number you would like to be contacted through regarding any updates from Medical Dept related to possible COVID-19 exposures</string>
+    <string name="thank_you_confirmation">Thank you for\nkeeping every one Safe!\n\nFeeling Better?</string>
+    <string name="tst_conf_continue">Please continue to use this app.</string>
+    <string name="im_covid_free">I\'M COVID-19 FREE!</string>
+    <string name="footer_quote_text">multi style text - to be set in fragment</string>
 
 </resources>

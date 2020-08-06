@@ -51,7 +51,8 @@ val appModule = module {
             testedRepository = get(),
             signedReportsDownloader = get(),
             ensureTcnIsStartedUseCase = get(),
-            tcnDao = get()
+            tcnDao = get(),
+            application = get()
         )
     }
 
@@ -79,11 +80,16 @@ val appModule = module {
         database.temporaryContactNumberDAO()
     }
 
+    single {
+        val database: CovidWatchDatabase = get()
+        database.interactionDAO()
+    }
+
     single { TcnKeys(androidApplication()) }
 
     single { OkHttpClient() }
 
-    single { SignedReportsUploader(okHttpClient = get(), signedReportDAO = get()) }
+    single { SignedReportsUploader(okHttpClient = get(), signedReportDAO = get(), context = androidContext()) }
 
     factory {
         TestedRepositoryImpl(
@@ -97,7 +103,8 @@ val appModule = module {
             context = androidApplication(),
             tcnKeys = get(),
             tcnDao = get(),
-            signedReportDAO = get()
+            signedReportDAO = get(),
+            interactionDAO = get()
         )
     }
 }

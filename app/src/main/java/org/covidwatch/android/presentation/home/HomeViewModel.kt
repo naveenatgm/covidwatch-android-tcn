@@ -1,21 +1,25 @@
 package org.covidwatch.android.presentation.home
 
+import android.app.Application
 import androidx.lifecycle.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.launch
 import org.covidwatch.android.R
+import org.covidwatch.android.data.CovidWatchDatabase
+import org.covidwatch.android.data.Interaction
 import org.covidwatch.android.data.TemporaryContactNumberDAO
 import org.covidwatch.android.data.signedreport.SignedReportsDownloader
 import org.covidwatch.android.domain.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
 
 class HomeViewModel(
     private val userFlowRepository: UserFlowRepository,
     private val testedRepository: TestedRepository,
     private val signedReportsDownloader: SignedReportsDownloader,
     private val ensureTcnIsStartedUseCase: EnsureTcnIsStartedUseCase,
-    tcnDao: TemporaryContactNumberDAO
-) : ViewModel(), EnsureTcnIsStartedPresenter {
+    tcnDao: TemporaryContactNumberDAO,
+    application: Application
+) : AndroidViewModel(application), EnsureTcnIsStartedPresenter {
 
     private val isUserTestedPositive: Boolean get() = testedRepository.isUserTestedPositive()
     private val _userTestedPositive = MutableLiveData<Unit>()
@@ -24,8 +28,12 @@ class HomeViewModel(
     private val _infoBannerState = MutableLiveData<InfoBannerState>()
     val infoBannerState: LiveData<InfoBannerState> get() = _infoBannerState
 
-    private val _warningBannerState = MutableLiveData<WarningBannerState>()
-    val warningBannerState: LiveData<WarningBannerState> get() = _warningBannerState
+    private val _contactWarningBannerState = MutableLiveData<ContactWarningBannerState>()
+    val contactWarningBannerState: LiveData<ContactWarningBannerState> get() = _contactWarningBannerState
+
+    private val intrcRepository: InteractionRepository
+    val nearbyInteractions: LiveData<List<Interaction>>
+   // val countByInteractions: Int
 
     private val _userFlow = MutableLiveData<UserFlow>()
     val userFlow: LiveData<UserFlow> get() = _userFlow
@@ -41,12 +49,18 @@ class HomeViewModel(
     private val interactedWithInfectedObserver =
         Observer<Boolean> { hasPossiblyInteractedWithInfected ->
             if (hasPossiblyInteractedWithInfected && !isUserTestedPositive) {
-                _warningBannerState.value = WarningBannerState.Visible(R.string.contact_alert_text)
+                _contactWarningBannerState.value = ContactWarningBannerState.Visible(R.string.contact_alert_text)
             }
         }
 
     init {
         hasPossiblyInteractedWithInfected.observeForever(interactedWithInfectedObserver)
+
+        val intrDao = CovidWatchDatabase.getInstance(application).interactionDAO()
+        intrcRepository = InteractionRepository(intrDao)
+        nearbyInteractions = intrcRepository.nearbyInteractions
+       // nearbyInteractions = intrcRepository.nearbyInteractionsByTime
+        //countByInteractions = intrcRepository.countbyInteractionsByTime
     }
 
     override fun onCleared() {
@@ -88,10 +102,13 @@ class HomeViewModel(
         }
     }
 
-    private fun checkIfUserTestedPositive() {
+    fun checkIfUserTestedPositive(): Boolean {
         if (isUserTestedPositive) {
             _userTestedPositive.value = Unit
-            _warningBannerState.value = WarningBannerState.Visible(R.string.reported_alert_text)
+            //_contactWarningBannerState.value = ContactWarningBannerState.Visible(R.string.reported_alert_text)
+            return true
+        } else {
+            return false
         }
     }
 

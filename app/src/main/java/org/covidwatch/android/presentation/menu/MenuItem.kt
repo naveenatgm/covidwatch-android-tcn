@@ -10,4 +10,5 @@ sealed class Destination
 
 object Settings : Destination()
 object TestResults : Destination()
+object DebugInfo: Destination()
 class Browser(val url: String) : Destination()

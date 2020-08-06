@@ -17,6 +17,8 @@ import com.google.firebase.firestore.QuerySnapshot
 import org.covidwatch.android.R
 import org.covidwatch.android.data.CovidWatchDatabase
 import org.covidwatch.android.data.TemporaryContactNumberDAO
+import org.covidwatch.android.service.ContactTracerService
+import org.covidwatch.android.util.NotificationUtils
 import org.tcncoalition.tcnclient.crypto.KeyIndex
 import org.tcncoalition.tcnclient.crypto.MemoType
 import org.tcncoalition.tcnclient.crypto.Report
@@ -163,13 +165,16 @@ class SignedReportsDownloadWorker(var context: Context, workerParams: WorkerPara
             val recomputedTemporaryContactNumbers = report.temporaryContactNumbers
             val identifiers = mutableListOf<ByteArray>()
             recomputedTemporaryContactNumbers.forEach {
+                Log.i(TAG,"TCN Marked for Potential Infectious: ${it}")
+                val string = String(it.bytes)
+               // Log.i(TAG,"TCN Byte to String: ${string}  -- Base64: ${Base64.encodeToString(it.bytes,Base64.NO_WRAP)}")
                 identifiers.add(it.bytes)
             }
-
+            /*
             Log.i(
                 TAG,
                 "Marking ${identifiers.size} temporary contact number(s) as potentially infectious=$wasPotentiallyInfectious ..."
-            )
+            )*/
             val chunkSize = 998 // SQLITE_MAX_VARIABLE_NUMBER - 1
             identifiers.chunked(chunkSize).forEach {
                 temporaryContactNumberDAO.update(it, wasPotentiallyInfectious)
@@ -178,6 +183,17 @@ class SignedReportsDownloadWorker(var context: Context, workerParams: WorkerPara
                     "Marked ${it.size} temporary contact number(s) as potentially infectious=$wasPotentiallyInfectious"
                 )
             }
+        }
+
+        val newInfections = temporaryContactNumberDAO.countNewPotentialInfections()
+        if (newInfections > 0){
+            val currPhone = context?.getSharedPreferences("org.covidwatch.android.PREFERENCE_FILE_KEY",
+                Context.MODE_PRIVATE
+            )?.getString("contact_number_full","No number saved")
+
+            val cts = currPhone?.let { ContactTracerService().registerPhoneNumber(it, false) }
+            temporaryContactNumberDAO.markPotentialInfectiousNotifiedToMedical()
+            NotificationUtils.sendNotificationDanger()
         }
     }
 

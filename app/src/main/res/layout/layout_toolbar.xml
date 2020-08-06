@@ -8,19 +8,25 @@
     android:paddingVertical="24dp">
 
     <ImageView
+        android:id="@+id/menu_button"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        app:srcCompat="@drawable/ic_cw_brandmark_blue" />
+        android:background="?selectableItemBackgroundBorderless"
+        app:srcCompat="@drawable/hamburgular" />
+
+    <Space
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1" />
+
+    <ImageView
+        android:layout_width="220dp"
+        android:layout_height="42dp"
+        app:srcCompat="@drawable/logo_placeholder" />
 
     <View
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_weight="1" />
 
-    <ImageView
-        android:id="@+id/menu_button"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:background="?selectableItemBackgroundBorderless"
-        app:srcCompat="@drawable/ic_menu" />
 </LinearLayout>

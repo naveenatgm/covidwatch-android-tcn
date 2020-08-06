@@ -15,8 +15,8 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
     defaultConfig {
-        applicationId "edu.stanford.covidwatch.android"
-        minSdkVersion 23
+        applicationId "org.covidwatch.android"
+        minSdkVersion 26
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
@@ -24,16 +24,22 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    tasks.whenTaskAdded { task ->
+        if (task.name.equals("lint")) {
+            task.enabled = false
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             testCoverageEnabled false
-            buildConfigField("String", "FIREBASE_CLOUD_FUNCTIONS_ENDPOINT", '"https://us-central1-tagstwo-431e3.cloudfunctions.net"')
+            buildConfigField("String", "FIREBASE_CLOUD_FUNCTIONS_ENDPOINT", '"https://us-central1-covid2020-c4386.cloudfunctions.net"')
         }
         debug {
             testCoverageEnabled true
-            buildConfigField("String", "FIREBASE_CLOUD_FUNCTIONS_ENDPOINT", '"https://us-central1-tagstwo-431e3.cloudfunctions.net"')
+            buildConfigField("String", "FIREBASE_CLOUD_FUNCTIONS_ENDPOINT", '"https://us-central1-covid2020-c4386.cloudfunctions.net"')
         }
     }
 
@@ -73,6 +79,7 @@ android {
     }
 
     lintOptions {
+        tasks.lint.enabled = false
         abortOnError false
     }
 
@@ -126,6 +133,8 @@ dependencies {
 
     implementation "pub.devrel:easypermissions:3.0.0"
 
+    implementation 'com.neovisionaries:nv-bluetooth:1.8'
+
     def koin_version = "2.1.5"
     implementation "org.koin:koin-android:$koin_version"
     implementation "org.koin:koin-androidx-viewmodel:$koin_version"
@@ -162,6 +171,9 @@ dependencies {
     // Fragment testing
     def fragment_testing_version = "1.2.4"
     debugImplementation "androidx.fragment:fragment-testing:$fragment_testing_version"
+
+    def security_version = "1.0.0-alpha02"
+    implementation "androidx.security:security-crypto:$security_version"
 
 }
 

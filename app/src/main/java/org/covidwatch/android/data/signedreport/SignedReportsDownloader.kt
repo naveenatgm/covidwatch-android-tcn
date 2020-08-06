@@ -3,6 +3,7 @@ package org.covidwatch.android.data.signedreport
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.work.*
+import org.covidwatch.android.GlobalConstants
 import org.covidwatch.android.data.signedreport.firestore.SignedReportsDownloadWorker
 import java.util.concurrent.TimeUnit
 
@@ -13,7 +14,7 @@ class SignedReportsDownloader(private val workManager: WorkManager) {
 
     fun schedulePeriodicPublicSignedReportsRefresh() {
         val downloadRequest =
-            PeriodicWorkRequestBuilder<SignedReportsDownloadWorker>(1, TimeUnit.HOURS)
+            PeriodicWorkRequestBuilder<SignedReportsDownloadWorker>(GlobalConstants.WAIT_TO_DOWNLOAD_SIGNED_REPORT_IN_MINUTES, TimeUnit.MINUTES)
                 .setConstraints(getRefreshConstraints())
                 .build()
 

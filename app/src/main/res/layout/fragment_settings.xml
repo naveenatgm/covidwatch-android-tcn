@@ -11,7 +11,7 @@
         android:id="@+id/close_button"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_gravity="end"
+        android:layout_gravity="start"
         android:background="?selectableItemBackgroundBorderless"
         app:srcCompat="@drawable/ic_close" />
 
@@ -28,6 +28,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:fontFamily="@font/arial"
         android:text="@string/issues_needs_to_be_resolved" />
 
     <Button
@@ -36,13 +37,18 @@
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:layout_marginTop="24dp"
-        android:text="@string/turn_on_bluetooth" />
+        android:background="#DB9815"
+        android:text="@string/turn_on_bluetooth"
+        android:textColor="#333333"
+        android:textSize="18sp" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/arial"
         android:text="@string/turn_on_bluetooth_subtext"
-        android:textAlignment="center" />
+        android:textAlignment="center"
+        android:textSize="16sp" />
 
     <Button
         android:id="@+id/location_button"
@@ -50,12 +56,50 @@
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:layout_marginTop="32dp"
-        android:text="@string/location_access_on" />
+        android:background="#DB9815"
+        android:text="@string/location_access_on"
+        android:textColor="#333333"
+        android:textSize="18sp" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/bluetooth_explanation_subtext"
-        android:textAlignment="center" />
+        android:fontFamily="@font/arial"
+        android:text="@string/location_explanation_subtext"
+        android:textAlignment="center"
+        android:textSize="16sp" />
+
+    <EditText
+        android:id="@+id/contact_phone_number"
+        style="@style/main_regular_input"
+        android:layout_width="match_parent"
+        android:layout_height="56dip"
+        android:layout_marginLeft="0dip"
+        android:layout_marginTop="60dip"
+        android:layout_marginRight="0dip"
+        android:layout_marginBottom="-25dip"
+        android:hint="+1 (313) 555-1234"
+        android:inputType="phone"
+        android:selectAllOnFocus="true" />
+
+    <Button
+        android:id="@+id/save_button"
+        style="?attr/materialButtonOutlinedStyle"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_marginTop="32dp"
+        android:background="#DB9815"
+        android:text="SAVE CONTACT NUMBER"
+        android:textColor="#333333"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/arial"
+        android:text="@string/enter_contact_phone_number"
+        android:textAlignment="center"
+        android:textSize="15sp" />
 
 </LinearLayout>
