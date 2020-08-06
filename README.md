@@ -15,10 +15,12 @@ This document is focused on the implementation of the Android version of the Con
 - iBeacon support for iOS -> Android interactions
 
 ## Application Flow
-![Application Flow](./media/application-flow.png)
+
+![](./media/application-flow.PNG)
 
 ## Application Architecture
-![Application Architecture](./media/application-arch.png)
+
+![](./media/application-arch.PNG)
 
 ## Setup
 
